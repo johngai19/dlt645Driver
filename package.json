@@ -1,0 +1,30 @@
+{
+  "name": "dlt645driver",
+  "version": "1.0.0",
+  "description": "this is a dlt 645 intelligent power meter driver for aliyun edge gateway",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weizy0219/dlt645Driver.git"
+  },
+  "keywords": [
+    "dlt645",
+    "aliyun",
+    "edge",
+    "gateway",
+    "driver"
+  ],
+  "author": "weizy@126.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/weizy0219/dlt645Driver/issues"
+  },
+  "homepage": "https://github.com/weizy0219/dlt645Driver#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}
