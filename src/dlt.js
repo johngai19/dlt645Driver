@@ -1,13 +1,23 @@
 'use strict'
 
 class Dlt  {
-    constructor(sn){
+    constructor(sn,driverPort='/dev/ttyS4',updateInterval=3000){
         this._sn=sn;
+        this._driverPort=driverPort;
+        this._updateInterval=updateInterval;
         this._properties=dltproperties;
     }
     
     get  sn(){
         return this._sn;
+    }
+
+    get driverPort(){
+        return this._driverPort;
+    }
+
+    get updateInterval(){
+        return this._updateInterval;
     }
 
     get properties(){

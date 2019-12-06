@@ -25,6 +25,12 @@
   "homepage": "https://github.com/weizy0219/dlt645Driver#readme",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.2.2"
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^6.2.2",
+    "sinon": "^7.5.0",
+    "sinon-chai": "^3.3.0"
+  },
+  "dependencies": {
+    "serialport": "^8.0.5"
   }
 }

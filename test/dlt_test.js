@@ -2,15 +2,17 @@
 
 const expect=require('chai').expect;
 
-describe('Project environment test',()=>{
+describe('Dlt class test',()=>{
 
     let Dlt=require('../src/dlt');
-    let meterSN="01020304";
-    let dlt=new Dlt(meterSN);
+    let dlt=new Dlt('01020304','/dev/ttyS4',3000);
     
     it('should build a Dlt object',()=>{
         // Dlt.properties.eleFr=50;
         expect(dlt).to.be.instanceOf(Dlt);
+        expect(dlt._sn).to.be.eql('01020304');
+        expect(dlt.driverPort).to.be.eql('/dev/ttyS4');
+        expect(dlt.updateInterval).to.be.eql(3000);
     });
 
     it('should get default dltpropeties from dlt',()=>{
