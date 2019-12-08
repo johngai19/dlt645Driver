@@ -2,10 +2,11 @@ const dltdata = require('./dltdata');
 const zmq = require('zeromq');
 
 class DltMeter {
-    constructor(meterSn='000000000000', dltData=Object.assign({},dltdata),serverSocket='ipc://dltdriver.ipc') {
+    constructor(meterSn='000000000000', dltData=Object.assign({},dltdata),serverSocket='ipc://dltdriver.ipc',updateInt = 5000) {
         this._dltdata = dltData;
         this._dltdata.meterSn=meterSn;
         this._req = zmq.socket('req');
+        this._updateInt=updateInt;
         this._req.connect(serverSocket);
         this._req.on('message', data => {
             const content = JSON.parse(data);
@@ -17,7 +18,7 @@ class DltMeter {
         })
         this.ins=setInterval(() => {
             this._req.send(JSON.stringify( this._dltdata) );
-        }, 2000);   
+        }, updateInt);   
         process.on('SIGINT',()=>{
             console.log('shutting down...');
             this._req.close();
