@@ -1,6 +1,6 @@
 /**
  * A  DltParser module which allows to translate between structured cmd and Buffer
- * This version is a sync function ,for async function see promise version
+ * *This version is an async function of promise style,for sync function see another version
  * currently only support limited command code like 11,91,b1 and d1, further support is under developing
  * TODO  support more Dlt code in the future
  * 
@@ -59,7 +59,7 @@ const propertyCode = {
 
 //TODO cmdToBuf function to be updated
 //First export function to transfer cmd to buf , cmd should be the same as above format
-exports.cmdToBuf = ((cmd) => {
+exports.cmdToBufPromise = ((cmd) => {
     //meter sn shall not be longer than 12 bytes or will be cutoff 
     //the buffer will be filled with 0 if meter sn is shorter than 12
     let encodeSn = ((sn) => {
@@ -87,24 +87,24 @@ exports.cmdToBuf = ((cmd) => {
         return Buffer.concat([cBuf, lBuf, dataBuf.reverse()]);
     });
 
-
-    try {
-        const cmdBuf = Buffer.concat([divBuf, encodeSn(cmd.sn),
-            divBuf, encodeData(cmd.sn)]);
-        let csBuf = Buffer.from([0x00]);
-        for (let i = 0; i < cmdBuf.length; i++) {
-            csBuf[0] = csBuf[0] + cmdBuf[i];
+    return new Promise((resolve, reject) => {
+        try {
+            const cmdBuf = Buffer.concat([divBuf, encodeSn(cmd.sn),
+                divBuf, encodeData(cmd.sn)]);
+            let csBuf = Buffer.from([0x00]);
+            for (let i = 0; i < cmdBuf.length; i++) {
+                csBuf[0] = csBuf[0] + cmdBuf[i];
+            }
+            resolve(Buffer.concat([preBuf, cmdBuf, csBuf, endBuf]));
         }
-        return (Buffer.concat([preBuf, cmdBuf, csBuf, endBuf]));
-    }
-    catch (e) {
-        return undefined;
-    }
-
+        catch (e) {
+            reject(e);
+        }
+    });
 });
 
 //TODO bufToCmd function to be updated
-exports.bufToCmd = ((buf) => {
+exports.bufToCmdPromise = ((buf) => {
     //meter sn shall not be longer than 12 bytes or will be cutoff 
     //the buffer will be filled with 0 if meter sn is shorter than 12
     let csCheck = ((sbuf, cs) => {
@@ -171,27 +171,20 @@ exports.bufToCmd = ((buf) => {
         }
     });
 
-
-    try {
-        let start = buf.indexOf(divBuf);
-        let div = buf.lastIndexOf(divBuf);
-        let end = buf.indexOf(endBuf);
-        if (csCheck(buf.slice(start, end - 1), buf.slice(end - 1, end)) === true) {
+    return new Promise((resolve, reject) => {
+        try {
+            let start = buf.indexOf(divBuf);
+            let div = buf.lastIndexOf(divBuf);
+            let end = buf.indexOf(endBuf);
+            if (csCheck(buf.slice(start, end - 1), buf.slice(end - 1, end)) !== true) {
+                reject('csCheck Error');
+            }
             const cmd = decodeData(buf, div);
             cmd.sn = decodeSn(buf, start, div);
-            return cmd;
-        } else {
-            throw 'csCheck Error';
+            resolve(cmd);
         }
-    }
-    catch (e) {
-        return {
-            cmd: '',
-            data: {
-                status: false,
-                propertyName: 'errorCode',
-                value: e.toString()
-            }
-        };
-    }
+        catch (e) {
+            reject(e);
+        }
+    });
 });
