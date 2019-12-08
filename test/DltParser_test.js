@@ -1,4 +1,4 @@
-const expect = require('chai').use(require('chai-as-promised')).expect;
+const expect = require('chai').expect;
 const dltParser = require('../src/DltParser');
 
 describe('Sync Encoder test', () => {
@@ -45,8 +45,39 @@ describe('Sync Decoder test', () => {
                 cmd: '',
                 data: {
                     status: false,
-                    propertyName:'errorCode',
+                    propertyName:'errCode',
                     value: 'TypeError: Cannot read property \'indexOf\' of undefined'
+                }
+            }
+        
+        expect(dltParser.bufToCmd(buf)).to.eql(cmd);
+    });
+
+    it('should return csCheck error  if cs is incorectt', () => {
+        const buf = Buffer.from([0xfe ,0xfe ,0xfe ,0xfe ,0x68 ,0x43 ,0x10 ,0x00 ,0x11 ,0x34 ,0x00 ,
+            0x68 ,0xd1 ,0x06 ,0x33 ,0x34 ,0x34 ,0x35 ,0xca ,0x55 ,0xee ,0x16]);
+        let cmd={    
+                cmd: '',
+                data: {
+                    status: false,
+                    propertyName:'errCode',
+                    value: 'csCheck Error'
+                }
+            }
+        
+        expect(dltParser.bufToCmd(buf)).to.eql(cmd);
+    });
+
+    it('should return d1 error code', () => {
+        const buf = Buffer.from([0xfe ,0xfe ,0xfe ,0xfe ,0x68 ,0x43 ,0x10 ,0x00 ,0x11 ,0x34 ,0x00 ,
+            0x68 ,0xd1 ,0x01 ,0x31,0x6b ,0x16]);
+        let cmd={    
+                cmd: 'd1',
+                sn: '3411001043',
+                data: {
+                    status: false,
+                    propertyName:'errCode',
+                    value: '31'
                 }
             }
         

@@ -21,6 +21,7 @@
  * @example see test file
  */
 
+
 // fix buf data format, see dlt 645 for detail
 const preBuf = Buffer.alloc(4).fill('fe', 'hex');
 const divBuf = Buffer.from([0x68]);
@@ -86,120 +87,125 @@ exports.cmdToBuf = ((cmd) => {
         return Buffer.concat([cBuf, lBuf, dataBuf.reverse()]);
     });
 
-    
-        try {
-            const cmdBuf = Buffer.concat([divBuf, encodeSn(cmd.sn),
-                divBuf, encodeData(cmd.sn)]);
-            let csBuf = Buffer.from([0x00]);
-            for (let i = 0; i < cmdBuf.length; i++) {
-                csBuf[0] = csBuf[0] + cmdBuf[i];
-            }
-            return Buffer.concat([preBuf, cmdBuf, csBuf, endBuf]);
+
+    try {
+        const cmdBuf = Buffer.concat([divBuf, encodeSn(cmd.sn),
+            divBuf, encodeData(cmd.sn)]);
+        let csBuf = Buffer.from([0x00]);
+        for (let i = 0; i < cmdBuf.length; i++) {
+            csBuf[0] = csBuf[0] + cmdBuf[i];
         }
-        catch (e) {
-            return undefined;
-        }
-   
+        return (Buffer.concat([preBuf, cmdBuf, csBuf, endBuf]));
+    }
+    catch (e) {
+        return undefined;
+    }
+
 });
 
 //TODO bufToCmd function to be updated
 exports.bufToCmd = ((buf) => {
     //meter sn shall not be longer than 12 bytes or will be cutoff 
     //the buffer will be filled with 0 if meter sn is shorter than 12
-    let csCheck=((sbuf,cs)=>{
-        let buf=Buffer.from(sbuf);
+    let csCheck = ((sbuf, cs) => {
+        let buf = Buffer.from(sbuf);
         let csBuf = Buffer.from([0x00]);
         for (let i = 0; i < buf.length; i++) {
             csBuf[0] = csBuf[0] + buf[i];
         }
-        return (csBuf[0]===cs[0]);
+        return (csBuf[0] === cs[0]);
     });
 
-    let decodeSn=((sbuf,start,div)=>{
-        let buf=Buffer.from(sbuf);
-        const snBuf=buf.slice(start+1,div);
-        let sn=snBuf.reverse().toString('hex');
+    //decode MeterSN number from orginal Buffer
+    let decodeSn = ((sbuf, start, div) => {
+        let buf = Buffer.from(sbuf);
+        const snBuf = buf.slice(start + 1, div);
+        let sn = snBuf.reverse().toString('hex');
         return sn.substr(sn.search(/[^0]/));
     });
 
-    let decodeData=((sbuf,div)=>{
-        let buf=Buffer.from(sbuf);
-        let cmd={
-            cmd:'',
-            data:{
+    //decode command  number and match with dlt property
+    let decodeData = ((sbuf, div) => {
+        let buf = Buffer.from(sbuf);
+        let cmd = {
+            cmd: '',
+            data: {
                 status: false,
-                propertyName:undefined,
+                propertyName: undefined,
                 value: 0
             }
         };
-        cmd.cmd=buf[div+1].toString(16);
-  
-        if((cmd.cmd==='91')||(cmd.cmd==='b1')){
-            let dataLength=buf[div+2];
-            let divBias=div+3;
-            let cmdLength=4;
+        cmd.cmd = buf[div + 1].toString(16);
+
+        //Currently 
+        if ((cmd.cmd === '91') || (cmd.cmd === 'b1')) {
+            let dataLength = buf[div + 2];
+            let divBias = div + 3;
+            let cmdLength = 4;
             const fixBias = Buffer.from([0x33]);
-            let propBuf=buf.slice(divBias,divBias+cmdLength);
-            let dataBuf=buf.slice(divBias+cmdLength,divBias+dataLength);
-            for(let i=0;i<propBuf.length;i++){
-                propBuf[i]=propBuf[i]-fixBias[0];
+            let propBuf = buf.slice(divBias, divBias + cmdLength);
+            let dataBuf = buf.slice(divBias + cmdLength, divBias + dataLength);
+            for (let i = 0; i < propBuf.length; i++) {
+                propBuf[i] = propBuf[i] - fixBias[0];
             }
-            let dataValue=0;
-            for(let i=0;i<dataBuf.length;i++){
-                dataBuf[i]=dataBuf[i]-fixBias[0];
-                let tem=parseInt(dataBuf[i].toString(16));
-                dataValue=dataValue+tem*(100**i);
+            let dataValue = 0;
+            for (let i = 0; i < dataBuf.length; i++) {
+                dataBuf[i] = dataBuf[i] - fixBias[0];
+                let tem = parseInt(dataBuf[i].toString(16));
+                dataValue = dataValue + tem * (100 ** i);
             }
-            let cmdStr=propBuf.reverse().toString('hex');
-            for(let key in propertyCode){
-                if(propertyCode[key]===cmdStr){
-                    cmd.data.propertyName=key;
-                    cmd.data.value=dataValue;
-                    cmd.data.status=true;
+            let cmdStr = propBuf.reverse().toString('hex');
+            for (let key in propertyCode) {
+                if (propertyCode[key] === cmdStr) {
+                    cmd.data.propertyName = key;
+                    cmd.data.value = dataValue;
+                    cmd.data.status = true;
                     break;
                 }
             }
             return cmd;
-        }else if(cmd.cmd==='d1'){
-            cmd.data.value=buf.slice(buf.length-3,buf.length-2).toString('hex');
-            cmd.data.propertyName='errCode';
-            return cmd;
-        }else{
-            cmd.data.value='-1';
-            cmd.data.propertyName='errCode';
-            return cmd;
+        } else if (cmd.cmd === 'd1') {
+            return {
+                cmd: 'd1',
+                data: {
+                    status: false,
+                    propertyName: 'errorCode',
+                    value: e.toString()
+                }
+            };
+        } else {
+            return {
+                cmd: '',
+                data: {
+                    status: false,
+                    propertyName: 'errorCode',
+                    value: '-1'
+                }
+            };
         }
     });
 
-    
-        try {
-            let start = buf.indexOf(divBuf);
-            let div= buf.lastIndexOf(divBuf);
-            let end = buf.indexOf(endBuf);
-            if(csCheck(buf.slice(start,end-1),buf.slice(end-1,end))!==true){
-                return {
-                    cmd:'',
-                    data:{
-                        status: false,
-                        propertyName:'errCode',
-                        value: 'csCheck Error'
-                    }
-                }
-            }
-            const cmd=decodeData(buf,div);
-            cmd.sn=decodeSn(buf,start,div);
+
+    try {
+        let start = buf.indexOf(divBuf);
+        let div = buf.lastIndexOf(divBuf);
+        let end = buf.indexOf(endBuf);
+        if (csCheck(buf.slice(start, end - 1), buf.slice(end - 1, end)) === true) {
+            const cmd = decodeData(buf, div);
+            cmd.sn = decodeSn(buf, start, div);
             return cmd;
+        } else {
+            throw 'csCheck Error';
         }
-        catch (e) {
-            return {
-                cmd:'',
-                data:{
-                    status: false,
-                    propertyName:'errCode',
-                    value: e.toString()
-                }
+    }
+    catch (e) {
+        return {
+            cmd: '',
+            data: {
+                status: false,
+                propertyName: 'errorCode',
+                value: e.toString()
             }
-        }
-
+        };
+    }
 });
-
