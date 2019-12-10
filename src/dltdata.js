@@ -1,4 +1,4 @@
-const DltProperties = {
+const DltData = {
     meterSn: '000000000000',
     errCode:'0',
     elecFh: 0,
@@ -28,4 +28,4 @@ const DltProperties = {
     elecFec: 0,
 }
 
-module.exports=DltProperties;
+module.exports=DltData;

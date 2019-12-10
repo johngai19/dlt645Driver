@@ -16,7 +16,7 @@
 
 'use strict';
 
-
+//adf 
 
 const {
   RESULT_SUCCESS,
@@ -82,7 +82,7 @@ class Connector {
       this._clearInterval();
     }
     const timeout = setInterval(() => {
-      const dltData=this.dltMeter.dltData;
+    const dltData =object.assign({} ,this.dltMeter.dltData);
 
       // Publish the temperature as a property to Link IoT Edge.
       //this._client.reportProperties({ 'temperature': temperature, 'Uab': Uab,'Ia':Ia ,'meterSn':meterSn,'portName':portName});
@@ -134,11 +134,18 @@ class Connector {
       this.config.productKey, this.config.deviceName);
     // Return an object representing the result in the following form or the promise
     // wrapper of the object.
-    if (keys.includes('meterSn')) {
+    const dltData =object.assign({} ,this.dltMeter.dltData);
+    if(keys){
+      const repProp={};
+      for(let i =0;i<keys.length;i++){
+        if(dltData.hasOwnProperty(keys[i])){
+          repProp[keys[i]]=dltData[keys[i]];
+        }
+      }
       return {
         code: RESULT_SUCCESS,
         message: 'success',
-        params: this.dltData,
+        params:repProp,
       };
     }
     return {

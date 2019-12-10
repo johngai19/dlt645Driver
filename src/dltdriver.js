@@ -7,7 +7,7 @@ const ConcatParser = require('./ConcatParser');
 
 const defaultSet =
 {
-    baudRate: 9600,
+    baudRate: 1200,
     dataBits: 8,
     parity: "even",
     stopBits: 1,
@@ -127,8 +127,6 @@ class DltDriver {
     }
 
 }
-
-
 
 
 module.exports = DltDriver;
