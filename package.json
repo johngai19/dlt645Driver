@@ -4,6 +4,7 @@
   "description": "this is a dlt 645 intelligent power meter driver for aliyun edge gateway",
   "main": "index.js",
   "scripts": {
+    "start":"node index.js",
     "test": "mocha"
   },
   "repository": {
