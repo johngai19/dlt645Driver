@@ -1,7 +1,7 @@
 /* eslint-disable no-new */
 
 const sinon = require('sinon');
-const ConcatParser = require('../src/ConcatParser');
+const ConcatParser = require('../lib/ConcatParser');
 
 const sinonChai = require('sinon-chai');
 const chai = require('chai');

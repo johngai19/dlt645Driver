@@ -22,8 +22,8 @@ describe('Meter Class test', () => {
         //Use private function to test, with right and wrong property (eleUc)
         let newData1 = { elecUa: 100, elecUb: 200, eleUc: 500 }
         let newData2 = { elecUa: 1, elecUb: 2, eleUc: 5 }
-        meter1._updateMeterData(newData1);
-        meter2._updateMeterData(newData2);
+        meter1.updateMeterData(newData1);
+        meter2.updateMeterData(newData2);
         expect(meter1.meterData['elecUa']).to.eql(100);
         expect(meter1.meterData.elecUb).to.eql(200);
         expect(meter1.meterData).to.not.have.ownProperty('eleUc');

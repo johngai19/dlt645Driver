@@ -17,6 +17,8 @@ class Connector {
             getProperties: this._getProperties.bind(this),
             callService: this._callService.bind(this),
         });
+        //this._setProperties.bind(this);
+
     }
     /**
      * Connects to Link IoT Edge and publishes properties and events to it.
@@ -56,17 +58,8 @@ class Connector {
             this._clearInterval();
         }
         const timeout = setInterval(() => {
-            // const temperature = this.meter.temperature;
-            // const Uab = this.meter.Uab;
-            // const Ia = this.meter.Ia;
-            // const MeterSN=this.meter.MeterSN;
-            // const portName=this.meter.portName;
-            // Publish the temperature as a property to Link IoT Edge.
-            this._client.reportProperties({})//'temperature': temperature, 'Uab': Uab,'Ia':Ia ,'MeterSN':MeterSN,'portName':portName});
-            // Fire a high_temperature event if the temperature is greater then 40.
-            /*if (temperature > 40) {
-              this._client.reportEvent('high_temperature', { 'temperature': temperature });
-            }*/
+            const meterProperties=Object.assign({},this.meter.meterData);
+            this._client.reportProperties(meterProperties);
         }, 2000);
         this._clearInterval = () => {
             clearInterval(timeout);
@@ -107,20 +100,24 @@ class Connector {
             this.config.productKey, this.config.deviceName);
         // Return an object representing the result in the following form or the promise
         // wrapper of the object.
-        /*
-        if (keys.includes('temperature')&&keys.includes('Uab')&&keys.includes('Ia')) {
+        let getStatus=false;
+        const meterProperties=Object.assign({},this.meter.meterData);
+        const toReportProperties={};
+        for(let i=0;i<keys.length;i++){
+            let key=keys[i];
+            if(key in meterProperties){
+                getStatus=true;
+                Object.assign(toReportProperties,{[key]:meterProperties[key]});
+            }
+        }
+        
+        if (getStatus) {
           return {
             code: RESULT_SUCCESS,
             message: 'success',
-            params: {
-              temperature: this.meter.temperature,
-              Uab: this.meter.Uab,
-              Ia: this.meter.Ia,
-              MeterSN:this.meter.MeterSN,
-              portName:this.meter.portName
-            }
+            params:Object.assign({},toReportProperties)
           };
-        }*/
+        }
         return {
             code: RESULT_FAILURE,
             message: 'The requested properties does not exist.',
@@ -150,16 +147,16 @@ Config.get()
         // Get the device information from config, which contains product key, device
         // name, etc. of the device.
         const thingInfos = config.getThingInfos();
-        const portName = config.getDriverInfo().json.portName;
+        const driverInfo = config.getDriverInfo();
+        //driverInfo.json.portName
         thingInfos.forEach((thingInfo) => {
-            //FIXME change meter back
-            const meter = new Meter();
-            //const meter = new Meter(thingInfo.custom.MeterSN, portName);//thingInfo.Config.custom.MeterSN);
+            const meter = new Meter(thingInfo.custom.meterSn);
+            //const meter = new Meter(thingInfo.custom.meterSN, portName);//thingInfo.Config.custom.MeterSN);
             // The Thing format is just right for connector config, pass it directly.
             const connector = new Connector(thingInfo, meter);
             connector.connect();
-            console.log(thingInfo);
-            console.log(portName);
+            //console.log(thingInfo);
+            //console.log(portName);
         });
     });
 

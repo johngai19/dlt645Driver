@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const dltParser = require('../src/DltParser');
+const dltParser = require('../lib/DltParser');
 
 describe('Sync Encoder test', () => {
     it('should encode correct from cmd to buf', () => {

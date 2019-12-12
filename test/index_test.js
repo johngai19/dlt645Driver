@@ -19,7 +19,7 @@ describe('Index file test', () => {
 
     it('should build connector correct', () => {
         //let Connector=index.Connector;
-        let meter=new Meter();
+        
         let Connector=require('../index').Connector;
         let config={
             "productKey": "firstProduct",
@@ -27,8 +27,26 @@ describe('Index file test', () => {
             "custom": {
                 "meterSn": "firstMeter"
             }}
+        let meter=new Meter(config.custom.meterSn);
         let connector=new Connector(config,meter);
+        let RESULT_FAILURE=-1;
         expect(connector).to.be.instanceOf(Connector);
+        expect(connector.meter.meterSn).to.eql(config.custom.meterSn);
+        expect(connector._setProperties({})).to.eql({
+            code: RESULT_FAILURE,
+            message: 'failure',
+        });
+        expect(connector._getProperties([])).to.eql({
+            code: RESULT_FAILURE,
+            message: 'The requested properties does not exist.',
+        });
+        expect(connector._getProperties(['elecUa','elecUb'])).to.eql({
+              "code": 0,
+              "message": "success",
+              "params": {
+                "elecUa": 0,
+                "elecUb": 0
+              }});
     });
     //TODO finish test of connector, try setproperty function most.
 });
