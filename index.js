@@ -1,12 +1,13 @@
 'use strict';
 const Meter = require('./lib/meter');
+const DltDriver=require('./lib/dltdriver');
 const {
     RESULT_SUCCESS,
     RESULT_FAILURE,
     ThingAccessClient,
     Config,
-    //} = require('linkedge-thing-access-sdk');
-} = require('./lib/fakelinkedge');
+    } = require('linkedge-thing-access-sdk');
+// } = require('./lib/fakelinkedge');
 
 class Connector {
     constructor(config, meter) {
@@ -148,16 +149,19 @@ Config.get()
         // name, etc. of the device.
         const thingInfos = config.getThingInfos();
         const driverInfo = config.getDriverInfo();
+        const meterLists=[];
         //driverInfo.json.portName
         thingInfos.forEach((thingInfo) => {
             const meter = new Meter(thingInfo.custom.meterSn);
             //const meter = new Meter(thingInfo.custom.meterSN, portName);//thingInfo.Config.custom.MeterSN);
             // The Thing format is just right for connector config, pass it directly.
             const connector = new Connector(thingInfo, meter);
+            meterLists.push(meter);
             connector.connect();
             //console.log(thingInfo);
             //console.log(portName);
         });
+        const dltdriver=new DltDriver(portPath='ttyS4',updateInt=2000,meterList=meterLists);
     });
 
 module.exports.handler = function (event, context, callback) {

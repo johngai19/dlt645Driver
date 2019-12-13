@@ -12,7 +12,7 @@ describe('Meter Class test', () => {
     it('should create meter class instance and return default value', () => {
         let meter = new Meter();
         expect(meter).to.be.instanceOf(Meter);
-        expect(meter).to.be.instanceOf(EventEmitter);
+        //expect(meter).to.be.instanceOf(EventEmitter);
         expect(meter.meterSn).to.eql('000000000000');
         expect(meter.meterData).to.eql(MeterData);
     });
@@ -38,8 +38,10 @@ describe('Meter Class test', () => {
         let newData1 = { elecUa: 100, elecUb: 200, eleUc: 500 }
         let newData2 = { elecUa: 1, elecUb: 2, eleUc: 5 }
 
-        meter1.emit('update',meter1.meterSn, newData1);
-        meter2.emit('update', meter2.meterSn, newData2);
+        //meter1.emit('update',meter1.meterSn, newData1);
+       // meter2.emit('update', meter2.meterSn, newData2);
+        meter1.updateMeterData(newData1);
+        meter2.updateMeterData(newData2);
         expect(meter1.meterData['elecUa']).to.eql(100);
         expect(meter1.meterData.elecUb).to.eql(200);
         expect(meter1.meterData).to.not.have.ownProperty('eleUc');
