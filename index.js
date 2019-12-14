@@ -161,7 +161,11 @@ Config.get()
             //console.log(thingInfo);
             //console.log(portName);
         });
-        const dltdriver=new DltDriver(portPath='ttyS4',updateInt=2000,meterList=meterLists);
+        const portpath=driverInfo.json.portPath;
+        const updateint=driverInfo.json.updateInt;
+        const dltdriver=new DltDriver(portpath,updateint,meterLists);
+        console.log('driver built');
+        console.log(dltdriver);
     });
 
 module.exports.handler = function (event, context, callback) {
