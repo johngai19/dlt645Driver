@@ -36,6 +36,7 @@
     "sinon": "^7.5.0"
   },
   "pre-commit":[
+    "test",
     "fix",
     "lint"
   ],
