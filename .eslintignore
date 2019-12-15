@@ -1,0 +1,12 @@
+# 注释，忽略文件
+node_modules
+#**/.js
+build
+#VS code
+.vscode
+#git
+.gitignore
+#nyc
+.nyc_output
+#test files
+test
