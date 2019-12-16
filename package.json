@@ -2,13 +2,14 @@
   "name": "dlt645driver",
   "version": "1.0.0",
   "description": "this is a dlt 645 intelligent power meter driver for aliyun edge gateway",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "mocha",
     "cov": "nyc  mocha",
-    "start": "node index.js",
+    "start": "node src/index.js",
     "lint": "eslint .",
-    "fix": "eslint --fix ."
+    "fix": "eslint --fix .",
+    "doc":"npx jsdoc --private src/"
   },
   "repository": {
     "type": "git",
@@ -30,12 +31,13 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^6.7.2",
+    "jsdoc": "^3.6.3",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "pre-commit": "^1.2.2",
     "sinon": "^7.5.0"
   },
-  "pre-commit":[
+  "pre-commit": [
     "test",
     "fix",
     "lint"

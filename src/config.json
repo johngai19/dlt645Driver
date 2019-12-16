@@ -1,0 +1,24 @@
+{
+    "driverInfo": {
+        "portName":"ttyS4",
+        "baudRate": 1200,
+        "dataBits": 8,
+        "parity": "even",
+        "stopBits": 1,
+        "autoOpen":true,
+        "updateInterval":3000
+    },
+    "meterList": [
+        {
+            "productKey":"a1CLH9cvgoK",
+            "deviceName":"tstMeter",
+            "meterSn":"3411001043"
+        },
+        {
+            "productKey":"a1CLH9cvgoK",
+            "deviceName":"virtualMeter",
+            "meterSn":"0000000000"
+        }
+    ],
+    "reportInterval":10000
+}

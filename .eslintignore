@@ -10,3 +10,5 @@ build
 .nyc_output
 #test files
 test
+#jsdoc output
+out
