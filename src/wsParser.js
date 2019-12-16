@@ -60,7 +60,7 @@ module.exports = function (msgStr, config, cb) {
 
 
         dispatch = function () {
-            if ((code===0)&&(message==='Success')){
+            if (code===0&&message==='Success'){
                 let rest={};
 
                 return cb(rest);
