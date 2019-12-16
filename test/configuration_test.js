@@ -1,13 +1,10 @@
 'use strict';
 
 const expect = require('chai').expect;
-const sinon = require('sinon');
 const path = require('path');
 const Configuration = require('../src/configuration');
 
 describe('configuration tests', () => {
-
-    let sandbox;
     const configFile = path.join(__dirname, 'testconfig.json');
     const modelFile = path.join(__dirname, 'testmodel.json');
     const configuration = new Configuration(configFile, modelFile);
@@ -21,12 +18,7 @@ describe('configuration tests', () => {
         "updateInterval": 3000
     }));
 
-    beforeEach(() => {
-        sandbox = sinon.createSandbox();
-    })
-    afterEach(() => {
-        sandbox.restore();
-    })
+
 
     it('should pass this canary test', () => {
         expect(true).to.be.true;
@@ -56,6 +48,15 @@ describe('configuration tests', () => {
         expect(JSON.parse(meterList[0]).properties[1].value).to.be.eql(0);
     });
 
+    it('private method getAllProperties should return all property list', () => {
+
+        let propertis = configuration._getAllProperties();
+        let resList = ['elecPf', 'elecFh', 'elecFr', 'elecFra', 'elecFrb','elecFrc','elecPq','elecPqa',
+            'elecPqb','elecPqc','elecCa','elecCb','elecCc','elecUa','elecUb','elecUc','elecAe','elecAef',
+            'elecAea','elecAeb','elecAec','elecFef','elecFea','elecFeb','elecFec'];
+        expect(propertis).to.be.eql(resList);
+
+    });
 
     it('getProperty should return correct value string and ignore invalid property', () => {
 
@@ -67,12 +68,12 @@ describe('configuration tests', () => {
         let msg2 = JSON.stringify({
             "productKey": "a1CLH9cvgoK",
             "deviceName": "virtualMeter",
-            "properties": ["elecPf", "elecFh", "elecUa","invalidProperty"]
+            "properties": ["elecPf", "elecFh", "elecUa", "invalidProperty"]
         });
 
-        let resmsg = ['{"identifier":"elecPf","type":"int","value":0}',
-            '{"identifier":"elecFh","type":"int","value":0}',
-            '{"identifier":"elecUa","type":"int","value":0}'];
+        let resmsg = [{ "identifier": "elecPf", "type": "int", "value": 0 },
+        { "identifier": "elecFh", "type": "int", "value": 0 },
+        { "identifier": "elecUa", "type": "int", "value": 0 }];
 
         let response = configuration.getProperty(msg);
         let response2 = configuration.getProperty(msg2);
@@ -86,25 +87,59 @@ describe('configuration tests', () => {
         let msg = JSON.stringify({
             "productKey": "a1CLH9cvgoK",
             "deviceName": "tstMeter",
-            "properties": ['{"identifier":"elecPf","type":"int","value":10}',
-            '{"identifier":"elecFh","type":"int","value":100}',
-            '{"identifier":"elecUa","type":"int","value":1000}']
+            "properties": [{ "identifier": "elecPf", "type": "int", "value": 10 },
+            { "identifier": "elecFh", "type": "int", "value": 100 },
+            { "identifier": "elecUa", "type": "int", "value": 1000 },
+            { "identifier": "invalidProperty", "type": "int", "value": 10000 }]
         });
         let msg2 = JSON.stringify({
             "productKey": "a1CLH9cvgoK",
             "deviceName": "tstMeter",
-            "properties": ["elecPf", "elecFh", "elecUa","invalidProperty"]
+            "properties": ["elecPf", "elecFh", "elecUa", "invalidProperty"]
         });
 
-        let resmsg = ['{"identifier":"elecPf","type":"int","value":10}',
-            '{"identifier":"elecFh","type":"int","value":100}',
-            '{"identifier":"elecUa","type":"int","value":1000}'];
+        let resmsg = [{ "identifier": "elecPf", "type": "int", "value": 10 },
+        { "identifier": "elecFh", "type": "int", "value": 100 },
+        { "identifier": "elecUa", "type": "int", "value": 1000 }];
 
-        
         configuration.setProperty(msg);
         let response = configuration.getProperty(msg2);
         expect(response).to.be.eql(resmsg);
 
+    });
+
+    it('updateProperty should set correct value with meterSn property', () => {
+
+        let msg = JSON.stringify({
+            "meterSn": "3411001043",
+            "properties": [{ "identifier": "elecPf", "type": "int", "value": 20 },
+            { "identifier": "elecFh", "type": "int", "value": 200 },
+            { "identifier": "elecUa", "type": "int", "value": 2000 },
+            { "identifier": "invalidProperty", "type": "int", "value": 20000 }]
+        });
+        let msg2 = JSON.stringify({
+            "productKey": "a1CLH9cvgoK",
+            "deviceName": "tstMeter",
+            "properties": ["elecPf", "elecFh", "elecUa", "invalidProperty"]
+        });
+
+        let resmsg = [{ "identifier": "elecPf", "type": "int", "value": 20 },
+        { "identifier": "elecFh", "type": "int", "value": 200 },
+        { "identifier": "elecUa", "type": "int", "value": 2000 }];
+
+        configuration.updateProperty(msg);
+        let response = configuration.getProperty(msg2);
+        expect(response).to.be.eql(resmsg);
 
     });
+
+    it('onlineDevice should return all device Key and Name', () => {
+
+        let resmsg = [{ "deviceName": "tstMeter", "productKey": "a1CLH9cvgoK" },
+        { "deviceName": "virtualMeter", "productKey": "a1CLH9cvgoK" }];
+        let response = configuration.onlineDevice();
+        expect(response).to.be.eql(resmsg);
+    });
+
+
 });

@@ -1,8 +1,12 @@
 'use strict';
 
-const CONFIG=require('./config.json');
-const MODEL=require('./model.json');
+/*
+const path = require('path'),
+    WebSocketClient = require('websocket').client;
+const Configuration = require('./configuration'),
+    configFile = path.join(__dirname, 'config.json'),
+    modelFile = path.join(__dirname, 'model.json'),
+    configuration = new Configuration(configFile, modelFile),
+    client = new WebSocketClient();
 
-Object.freeze(CONFIG);
-Object.freeze(MODEL);
-
+*/

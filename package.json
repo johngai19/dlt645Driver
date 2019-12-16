@@ -6,10 +6,10 @@
   "scripts": {
     "test": "mocha",
     "cov": "nyc  mocha",
-    "start": "node src/index.js",
+    "start":"node src/index.js",
     "lint": "eslint .",
     "fix": "eslint --fix .",
-    "doc":"npx jsdoc --private src/"
+    "doc": "npx jsdoc --private src/"
   },
   "repository": {
     "type": "git",

@@ -19,6 +19,12 @@ class Configuration {
         //this._meterList is an array of String format which need to be parsed to use
         this._meterList = this._buildDeviceList(this._config.meterList, this._model.properties);
         this._buildDeviceList.bind(this);
+        this._getAllProperties.bind(this);
+        this.getProperty.bind(this);
+        this.setProperty.bind(this);
+        this.updateProperty.bind(this);
+        this.onlineDevice.bind(this);
+        this.reportProperty.bind(this);
     }
     /**
      * @property driverInfo
@@ -38,6 +44,7 @@ class Configuration {
         return this._meterList;
     }
 
+
     /**
     * @property reportInterval
     * @public
@@ -47,6 +54,21 @@ class Configuration {
         return this._reportInterval;
     }
 
+    /**
+     * @property _getAllProperties
+     * @private
+     * @returns {Array} propertyAlist- Array of String format with all properties
+     */
+    _getAllProperties(){
+        let propertyList=[],
+            properties=this._model.properties,
+            proLength=properties.length;
+
+        for (let i=0;i<proLength;i++){
+            propertyList.push(properties[i]['identifier']);
+        }
+        return propertyList;
+    }
     /**
      * @property _buildDeviceList
      * @private
@@ -87,16 +109,16 @@ class Configuration {
      * @property getProperty
      * @public
      * @param {JSON} msgString  - property request JSON string format
-     * @returns {Array} resMsg - JArray of JSON string format
+     * @returns {Array} resMsg - JArray of JSON  format
      * @example
      * let msg = JSON.stringify({
             "productKey": "a1CLH9cvgoK",
             "deviceName": "tstMeter",
             "properties": ["elecPf", "elecFh", "elecUa"]
         });
-    *  resmsg = ['{"identifier":"elecPf","type":"int","value":0}',
-            '{"identifier":"elecFh","type":"int","value":0}',
-            '{"identifier":"elecUa","type":"int","value":0}'];
+    *  resmsg = [{"identifier":"elecPf","type":"int","value":0},
+            {"identifier":"elecFh","type":"int","value":0},
+            {"identifier":"elecUa","type":"int","value":0}];
 
      */
     getProperty(msgString) {
@@ -121,7 +143,7 @@ class Configuration {
                         if (meterProperties[j]['identifier'] === properties[i]) {
                             let resProperty = Object.assign({}, meterProperties[j]);
 
-                            resMsg.push(JSON.stringify(resProperty));
+                            resMsg.push(JSON.parse(JSON.stringify(resProperty)));
                             break;
                         }
                     }
@@ -131,12 +153,18 @@ class Configuration {
         }
         return resMsg;
     }
-
+    /**
+     * @property setProperty
+     * @public
+     * @param {JSON} msgString  - property request JSON string format
+     * @returns {Array} resMsg - EMPTY JArray of JSON  format
+     * this method update this._meterList property values in class
+     */
     setProperty(msgString) {
         let message = JSON.parse(msgString),
             productKey = message['productKey'],
             deviceName = message['deviceName'],
-            properties = message['properties'], //this is still in array string format
+            properties = message['properties'], //this is in array JSON format
             meterList = this._meterList,
             propertiesLength = properties.length;
 
@@ -148,21 +176,106 @@ class Configuration {
                     meterLength = meterProperties.length;
 
                 for (let i = 0; i < propertiesLength; i++) {
-                    let property=JSON.parse(properties[i]);
+                    // let property=JSON.parse(properties[i]);
+                    let property = properties[i];
 
                     for (let j = 0; j < meterLength; j++) {
                         if (meterProperties[j]['identifier'] === property['identifier']) {
-                            Object.assign(meterProperties[j],property);
+                            Object.assign(meterProperties[j], property);
                             break;
                         }
                     }
                 }
-                meterList.splice(x,1,JSON.stringify(meter));
+                meterList.splice(x, 1, JSON.stringify(meter));
                 break;
             }
         }
 
         return JSON.stringify({});
     }
+
+    /**
+     * @property updateProperty
+     * @public
+     * @param {JSON} msgString  - property request JSON string format
+     * @returns {Array} resMsg - EMPTY JArray of JSON  format
+     * this method update this._meterList property values in class
+     * this method is used to update property with meterSn property rather than productKey and deviceName
+     * because when a dlt meter is used the response value only includes meterSn
+     */
+    updateProperty(msgString) {
+        let message = JSON.parse(msgString),
+            meterSn = message['meterSn'],
+            properties = message['properties'], //this is in array JSON format
+            meterList = this._meterList,
+            propertiesLength = properties.length;
+
+        for (let x = 0; x < meterList.length; x++) {
+            let meter = JSON.parse(meterList[x]);
+
+            if (meter['meterSn'] === meterSn) {
+                let meterProperties = meter['properties'],
+                    meterLength = meterProperties.length;
+
+                for (let i = 0; i < propertiesLength; i++) {
+                    // let property=JSON.parse(properties[i]);
+                    let property = properties[i];
+
+                    for (let j = 0; j < meterLength; j++) {
+                        if (meterProperties[j]['identifier'] === property['identifier']) {
+                            Object.assign(meterProperties[j], property);
+                            break;
+                        }
+                    }
+                }
+                meterList.splice(x, 1, JSON.stringify(meter));
+                break;
+            }
+        }
+
+        return JSON.stringify({});
+    }
+
+    /**
+     * @property onlineDevice
+     * @public
+     * @returns {Array} resMsg - deviceName/productKey Array of JSON  format
+     * this method update this._meterList property values in class
+     * this method is used to update property with meterSn property rather than productKey and deviceName
+     * because when a dlt meter is used the response value only includes meterSn
+     */
+    onlineDevice() {
+        let meterList = this._meterList,
+            resMsg = [];
+
+        for (let x = 0; x < meterList.length; x++) {
+            let meter = JSON.parse(meterList[x]),
+                resObj = {
+                    'productKey': meter['productKey'],
+                    'deviceName': meter['deviceName']
+                };
+
+            resMsg.push(Object.assign({}, resObj));
+        }
+        return resMsg;
+    }
+
+    reportProperty(){
+        // console.log(this.meterList);
+        let resList=[],
+            meterLength=this.meterList.length;
+
+        for (let i=0;i<meterLength;i++){
+            let resMsg={},
+                meter=JSON.parse(this._meterList[i]);
+
+            resMsg['productKey']=meter['productKey'];
+            resMsg['deviceName']=meter['deviceName'];
+            resMsg['properties']=meter['properties'];
+            resList.push(resMsg);
+        }
+        return resList;
+    }
+
 }
 module.exports = Configuration;
