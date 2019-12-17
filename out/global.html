@@ -104,12 +104,19 @@
     
 
     
-    <h4 class="name" id="_buildDeviceList"><span class="type-signature"></span>_buildDeviceList<span class="signature">(devices, model)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id="bufToCmd-aparserfunctiontotransformSerialportbufferbackintocustomCmd"><span class="type-signature"></span>bufToCmd - a parser function to transform Serialport buffer back into custom Cmd<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
 
 
+
+<div class="description">
+    A  dltparser module which allows to translate between structured cmd and Buffer
+This version is a sync function ,for async function see promise version
+currently only support limited command code like 11,91,b1 and d1, further support is under developing
+TODO  support more Dlt code in the future
+</div>
 
 
 
@@ -125,8 +132,6 @@
 <table class="params">
     <thead>
     <tr>
-        
-        <th>Name</th>
         
 
         <th>Type</th>
@@ -144,13 +149,11 @@
 
         <tr>
             
-                <td class="name"><code>devices</code></td>
-            
 
             <td class="type">
             
                 
-<span class="param-type">JSON</span>
+<span class="param-type">Object</span>
 
 
             
@@ -160,30 +163,7 @@
 
             
 
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>model</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">JSON</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
+            <td class="description last">cmd, a custom format of Buffer comply with Dlt645-2007</td>
         </tr>
 
     
@@ -224,7 +204,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="configuration.js.html">configuration.js</a>, <a href="configuration.js.html#line36">line 36</a>
+        <a href="dltparser.js.html">dltparser.js</a>, <a href="dltparser.js.html#line107">line 107</a>
     </li></ul></dd>
     
 
@@ -253,7 +233,21 @@
 
         
 <div class="param-desc">
-    devicelist
+    - A custom serialport command B
+To use the `dltparser` parser, provide a structured cmd or a Buffer of Dlt protocal
+dataformat Bellow are dataformat request
+    const cmd = {
+        sn: '3411001043',
+        cmd: '11',
+        data: {
+            status:true,
+            propertyName: 'elecUa',
+            value:0
+        }
+    }
+
+    let encodedData = Buffer.from([0xfe, 0xfe, 0xfe, 0xfe, 0x68, 0x43, 0x10, 0x00, 0x11, 0x34,
+        0x00, 0x68, 0x11, 0x04, 0x33, 0x34, 0x34, 0x35, 0x4d, 0x16]);
 </div>
 
 
@@ -264,13 +258,485 @@
     </dt>
     <dd>
         
-<span class="param-type">String</span>
+<span class="param-type">Object</span>
 
 
     </dd>
 </dl>
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="cmdToBuf-aparserfunctiontotransformcustomcommandtoSerialportbuffer"><span class="type-signature"></span>cmdToBuf - a parser function to transform custom command to Serialport buffer<span class="signature">()</span><span class="type-signature"> &rarr; {Buffer}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">cmd, a custom format of command</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dltparser.js.html">dltparser.js</a>, <a href="dltparser.js.html#line39">line 39</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - A serialport command Buffer
+To use the `dltparser` parser, provide a structured cmd or a Buffer of Dlt protocal
+Bellow are dataformat request
+    const cmd = {
+        sn: '3411001043',
+        cmd: '11',
+        data: {
+            status:true,
+            propertyName: 'elecUa',
+            value:0
+        }
+    }
+
+    let encodedData = Buffer.from([0xfe, 0xfe, 0xfe, 0xfe, 0x68, 0x43, 0x10, 0x00, 0x11, 0x34,
+        0x00, 0x68, 0x11, 0x04, 0x33, 0x34, 0x34, 0x35, 0x4d, 0x16]);
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Buffer</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getLogger-functiontobuildalog4jsmodulesoastomakeloggingeasier"><span class="type-signature"></span>getLogger - function to build a log4js module so as to make logging easier<span class="signature">(name)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">string format of log file</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="logger.js.html">logger.js</a>, <a href="logger.js.html#line2">line 2</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const logger  = require("./logger");
+        infoLogger  = log4js.getLogger("info");
+        traceLogger  = log4js.getLogger("trace");
+        debugLogger  = log4js.getLogger("debug");
+
+        infoLogger.info("现在时间：",new Date().toLocaleString());
+        traceLogger.trace("现在时间：",new Date().toLocaleString());
+        debugLogger.debug("现在时间：",new Date().toLocaleString());</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="useLogger-loggerforexpressproject"><span class="type-signature"></span>useLogger - logger for express project<span class="signature">(app, logger)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>app</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">expressapp</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Express format app</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>logger</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">log4js</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">log4js</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="logger.js.html">logger.js</a>, <a href="logger.js.html#line76">line 76</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -292,13 +758,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Configuration.html">Configuration</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_buildDeviceList">_buildDeviceList</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ConcatParser.html">ConcatParser</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="wsParser%2520-%2520function%2520to%2520parse%2520Ali%2520Iot%2520Linkedge%2520websocket%2520protocal.html">wsParser - function to parse Ali Iot Linkedge websocket protocal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#bufToCmd-aparserfunctiontotransformSerialportbufferbackintocustomCmd">bufToCmd - a parser function to transform Serialport buffer back into custom Cmd</a></li><li><a href="global.html#cmdToBuf-aparserfunctiontotransformcustomcommandtoSerialportbuffer">cmdToBuf - a parser function to transform custom command to Serialport buffer</a></li><li><a href="global.html#getLogger-functiontobuildalog4jsmodulesoastomakeloggingeasier">getLogger - function to build a log4js module so as to make logging easier</a></li><li><a href="global.html#useLogger-loggerforexpressproject">useLogger - logger for express project</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Dec 16 2019 12:57:01 GMT+0800 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Dec 17 2019 19:36:18 GMT+0800 (CST)
 </footer>
 
 <script> prettyPrint(); </script>

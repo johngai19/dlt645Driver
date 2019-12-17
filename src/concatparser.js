@@ -1,6 +1,7 @@
 'use strict';
 const { Transform } = require('stream');
-
+const logger=require('./logger'),
+    errorLogger=logger.getLogger('error');
 /**
  * A transform stream that  concat several data with a specified concat boundary and emits it
  * The code of this class is based on  DelimiterParser and InterByteTimeout Classes from  serialport package with slight modification
@@ -20,26 +21,33 @@ const ConcatParser = require('./ConcatParser');
 const port = new SerialPort('/dev/tty-usbserial1');
 const parser = port.pipe(new ConcatParser({ boundary: '\n'));
 parser.on('data', (data)=>{console.log});
+ * @auther weizy@126.com
+ * @version 1.0.0
  */
+
 
 class ConcatParser extends Transform {
     constructor(options = {}) {
         super(options);
+        try {
+            if (typeof options.boundary === 'undefined') {
+                throw new TypeError('"boundary" is not a bufferable object');
+            }
 
-        if (typeof options.boundary === 'undefined') {
-            throw new TypeError('"boundary" is not a bufferable object');
+            if (options.boundary.length === 0) {
+                throw new TypeError('"boundary" has a 0 or undefined length');
+            }
+
+            this.includeBoundary = typeof options.includeBoundary !== 'undefined' ? options.includeBoundary : true;
+            this.interval = typeof options.interval !== 'undefined' ? options.interval : 3000;
+            this.maxBufferSize = typeof options.maxBufferSize !== 'undefined' ? options.maxBufferSize : 65535;
+            this.intervalID = -1;
+            this.boundary = Buffer.from(options.boundary);
+            this.buffer = Buffer.alloc(0);
+
+        } catch (error) {
+            errorLogger.error('Init concatparser error:',error);
         }
-
-        if (options.boundary.length === 0) {
-            throw new TypeError('"boundary" has a 0 or undefined length');
-        }
-
-        this.includeBoundary = typeof options.includeBoundary !== 'undefined' ? options.includeBoundary : true;
-        this.interval = typeof options.interval !== 'undefined' ? options.interval : 3000;
-        this.maxBufferSize = typeof options.maxBufferSize !== 'undefined' ? options.maxBufferSize : 65535;
-        this.intervalID = -1;
-        this.boundary = Buffer.from(options.boundary);
-        this.buffer = Buffer.alloc(0);
     }
 
     _transform(chunk, encoding, cb) {

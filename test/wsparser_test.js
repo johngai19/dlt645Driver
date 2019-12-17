@@ -161,7 +161,7 @@ describe('wsParser tests', () => {
         // wsParser(messageStr, configuration, cb);
         wsParser(messageStr, stubConfig, cb);
     });
-    it('should return empty object if it is just Success response', (done) => {
+    it('should return specific object if it is just Success response', (done) => {
         let messageStr = JSON.stringify({
             "code": 0,
             "messageId": 1,
@@ -169,7 +169,10 @@ describe('wsParser tests', () => {
             "payload": { }
         });
 
-        let resmsg = { };
+        let resmsg = {
+              "code": 100000,
+              "message": "Unrecognized method.",
+            };
         // const path = require('path');
         // const configFile = path.join(__dirname, 'testconfig.json');
         // const modelFile = path.join(__dirname, 'testmodel.json');

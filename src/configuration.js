@@ -8,23 +8,29 @@
 *@auther weizy@126.com
 *@version 1.0.0
 */
+const logger=require('./logger'),
+    errorLogger=logger.getLogger('trace');
 
 class Configuration {
 
     constructor(configFile, modelFile) {
-        this._config = require(configFile);
-        this._driverInfo = this._config.driverInfo;
-        this._reportInterval = this._config.reportInterval;
-        this._model = require(modelFile);
-        //this._meterList is an array of String format which need to be parsed to use
-        this._meterList = this._buildDeviceList(this._config.meterList, this._model.properties);
-        this._buildDeviceList.bind(this);
-        this._getAllProperties.bind(this);
-        this.getProperty.bind(this);
-        this.setProperty.bind(this);
-        this.updateProperty.bind(this);
-        this.onlineDevice.bind(this);
-        this.reportProperty.bind(this);
+        try {
+            this._config = require(configFile);
+            this._driverInfo = this._config.driverInfo;
+            this._reportInterval = this._config.reportInterval;
+            this._model = require(modelFile);
+            //this._meterList is an array of String format which need to be parsed to use
+            this._meterList = this._buildDeviceList(this._config.meterList, this._model.properties);
+            this._buildDeviceList.bind(this);
+            this._getAllProperties.bind(this);
+            this.getProperty.bind(this);
+            this.setProperty.bind(this);
+            this.updateProperty.bind(this);
+            this.onlineDevice.bind(this);
+            this.reportProperty.bind(this);
+        } catch (error) {
+            errorLogger.error('Error to init configuration:',error);
+        }
     }
     /**
      * @property driverInfo
@@ -55,58 +61,66 @@ class Configuration {
     }
 
     /**
-     * @property _getAllProperties
+     * @method _getAllProperties
      * @private
      * @returns {Array} propertyAlist- Array of String format with all properties
      */
     _getAllProperties(){
-        let propertyList=[],
-            properties=this._model.properties,
-            proLength=properties.length;
+        try {
+            let propertyList=[],
+                properties=this._model.properties,
+                proLength=properties.length;
 
-        for (let i=0;i<proLength;i++){
-            propertyList.push(properties[i]['identifier']);
+            for (let i=0;i<proLength;i++){
+                propertyList.push(properties[i]['identifier']);
+            }
+            return propertyList;
+        } catch (error) {
+            errorLogger.error('Error to get all properties:',error);
         }
-        return propertyList;
     }
     /**
-     * @property _buildDeviceList
+     * @method _buildDeviceList
      * @private
      * @param {JSON} devices  - device list from configuration file
      * @param {JSON} model - device value model properties (only the properties need to be pass in)
      * @returns {Array} devicelist - Array of JSON String format
      */
     _buildDeviceList(devices, model) {
+        try {
 
-        let devicesLength = devices.length,
-            modelLength = model.length,
-            deviceList = [];
+            let devicesLength = devices.length,
+                modelLength = model.length,
+                deviceList = [];
 
-        for (let i = 0; i < devicesLength; i++) {
-            let deviceModel = {};
+            for (let i = 0; i < devicesLength; i++) {
+                let deviceModel = {};
 
-            Object.assign(deviceModel, devices[i]);
-            deviceModel.properties = [];
-            for (let j = 0; j < modelLength; j++) {
-                let property = {};
+                Object.assign(deviceModel, devices[i]);
+                deviceModel.properties = [];
+                for (let j = 0; j < modelLength; j++) {
+                    let property = {};
 
-                property['identifier'] = model[j]['identifier'];
-                property['type'] = model[j]['dataType']['type'];
-                if (property['type'] === 'int') {
-                    property['value'] = 0;
-                } else if (property.type === 'text') {
-                    property['value'] = '';
-                } else {
-                    property['value'] = 0;
+                    property['identifier'] = model[j]['identifier'];
+                    property['type'] = model[j]['dataType']['type'];
+                    if (property['type'] === 'int') {
+                        property['value'] = 0;
+                    } else if (property.type === 'text') {
+                        property['value'] = '';
+                    } else {
+                        property['value'] = 0;
+                    }
+                    deviceModel.properties.push(JSON.parse(JSON.stringify(property)));
                 }
-                deviceModel.properties.push(JSON.parse(JSON.stringify(property)));
+                deviceList.push(JSON.stringify(deviceModel));
             }
-            deviceList.push(JSON.stringify(deviceModel));
+            return deviceList;
+        } catch (error) {
+            errorLogger.error('Error to build device list:',error);
         }
-        return deviceList;
     }
     /**
-     * @property getProperty
+     * @method getProperty
      * @public
      * @param {JSON} msgString  - property request JSON string format
      * @returns {Array} resMsg - JArray of JSON  format
@@ -122,80 +136,90 @@ class Configuration {
 
      */
     getProperty(msgString) {
+        try {
 
-        let message = JSON.parse(msgString),
-            productKey = message['productKey'],
-            deviceName = message['deviceName'],
-            properties = message['properties'],
-            meterList = this._meterList,
-            propertiesLength = properties.length,
-            resMsg = [];
+            let message = JSON.parse(msgString),
+                productKey = message['productKey'],
+                deviceName = message['deviceName'],
+                properties = message['properties'],
+                meterList = this._meterList,
+                propertiesLength = properties.length,
+                resMsg = [];
 
-        for (let x = 0; x < meterList.length; x++) {
-            let meter = JSON.parse(meterList[x]);
+            for (let x = 0; x < meterList.length; x++) {
+                let meter = JSON.parse(meterList[x]);
 
-            if (meter['productKey'] === productKey && meter['deviceName'] === deviceName) {
-                let meterProperties = meter['properties'],
-                    meterLength = meterProperties.length;
+                if (meter['productKey'] === productKey && meter['deviceName'] === deviceName) {
+                    let meterProperties = meter['properties'],
+                        meterLength = meterProperties.length;
 
-                for (let i = 0; i < propertiesLength; i++) {
-                    for (let j = 0; j < meterLength; j++) {
-                        if (meterProperties[j]['identifier'] === properties[i]) {
-                            let resProperty = Object.assign({}, meterProperties[j]);
+                    for (let i = 0; i < propertiesLength; i++) {
+                        for (let j = 0; j < meterLength; j++) {
+                            if (meterProperties[j]['identifier'] === properties[i]) {
+                                let resProperty = Object.assign({}, meterProperties[j]);
 
-                            resMsg.push(JSON.parse(JSON.stringify(resProperty)));
-                            break;
+                                resMsg.push(JSON.parse(JSON.stringify(resProperty)));
+                                break;
+                            }
                         }
                     }
+                    break;
                 }
-                break;
             }
+            return resMsg;
+        } catch (error) {
+            errorLogger.error('Error to get property:',error);
         }
-        return resMsg;
     }
     /**
-     * @property setProperty
+     * @method setProperty
      * @public
      * @param {JSON} msgString  - property request JSON string format
      * @returns {Array} resMsg - EMPTY JArray of JSON  format
+     * @summary currently this property is not called, keep for the future
      * this method update this._meterList property values in class
      */
     setProperty(msgString) {
-        let message = JSON.parse(msgString),
-            productKey = message['productKey'],
-            deviceName = message['deviceName'],
-            properties = message['properties'], //this is in array JSON format
-            meterList = this._meterList,
-            propertiesLength = properties.length;
+        try {
 
-        for (let x = 0; x < meterList.length; x++) {
-            let meter = JSON.parse(meterList[x]);
+            let message = JSON.parse(msgString),
+                productKey = message['productKey'],
+                deviceName = message['deviceName'],
+                properties = message['properties'], //this is in array JSON format
+                meterList = this._meterList,
+                propertiesLength = properties.length;
 
-            if (meter['productKey'] === productKey && meter['deviceName'] === deviceName) {
-                let meterProperties = meter['properties'],
-                    meterLength = meterProperties.length;
+            for (let x = 0; x < meterList.length; x++) {
+                let meter = JSON.parse(meterList[x]);
 
-                for (let i = 0; i < propertiesLength; i++) {
-                    // let property=JSON.parse(properties[i]);
-                    let property = properties[i];
+                if (meter['productKey'] === productKey && meter['deviceName'] === deviceName) {
+                    let meterProperties = meter['properties'],
+                        meterLength = meterProperties.length;
 
-                    for (let j = 0; j < meterLength; j++) {
-                        if (meterProperties[j]['identifier'] === property['identifier']) {
-                            Object.assign(meterProperties[j], property);
-                            break;
+                    for (let i = 0; i < propertiesLength; i++) {
+                        // let property=JSON.parse(properties[i]);
+                        let property = properties[i];
+
+                        for (let j = 0; j < meterLength; j++) {
+                            if (meterProperties[j]['identifier'] === property['identifier']) {
+                                Object.assign(meterProperties[j], property);
+                                break;
+                            }
                         }
                     }
+                    meterList.splice(x, 1, JSON.stringify(meter));
+                    break;
                 }
-                meterList.splice(x, 1, JSON.stringify(meter));
-                break;
             }
-        }
 
-        return JSON.stringify({});
+            return JSON.stringify({});
+        } catch (error) {
+            errorLogger.error('Error to set property:',error);
+        }
     }
 
     /**
-     * @property updateProperty
+     * @method updateProperty
      * @public
      * @param {JSON} msgString  - property request JSON string format
      * @returns {Array} resMsg - EMPTY JArray of JSON  format
@@ -204,40 +228,45 @@ class Configuration {
      * because when a dlt meter is used the response value only includes meterSn
      */
     updateProperty(msgString) {
-        let message = JSON.parse(msgString),
-            meterSn = message['meterSn'],
-            properties = message['properties'], //this is in array JSON format
-            meterList = this._meterList,
-            propertiesLength = properties.length;
+        try {
 
-        for (let x = 0; x < meterList.length; x++) {
-            let meter = JSON.parse(meterList[x]);
+            let message = JSON.parse(msgString),
+                meterSn = message['meterSn'],
+                properties = message['properties'], //this is in array JSON format
+                meterList = this._meterList,
+                propertiesLength = properties.length;
 
-            if (meter['meterSn'] === meterSn) {
-                let meterProperties = meter['properties'],
-                    meterLength = meterProperties.length;
+            for (let x = 0; x < meterList.length; x++) {
+                let meter = JSON.parse(meterList[x]);
 
-                for (let i = 0; i < propertiesLength; i++) {
+                if (meter['meterSn'] === meterSn) {
+                    let meterProperties = meter['properties'],
+                        meterLength = meterProperties.length;
+
+                    for (let i = 0; i < propertiesLength; i++) {
                     // let property=JSON.parse(properties[i]);
-                    let property = properties[i];
+                        let property = properties[i];
 
-                    for (let j = 0; j < meterLength; j++) {
-                        if (meterProperties[j]['identifier'] === property['identifier']) {
-                            Object.assign(meterProperties[j], property);
-                            break;
+                        for (let j = 0; j < meterLength; j++) {
+                            if (meterProperties[j]['identifier'] === property['identifier']) {
+                                Object.assign(meterProperties[j], property);
+                                break;
+                            }
                         }
                     }
+                    meterList.splice(x, 1, JSON.stringify(meter));
+                    break;
                 }
-                meterList.splice(x, 1, JSON.stringify(meter));
-                break;
             }
+            //infoLogger.info(this._meterList);
+            return JSON.stringify({});
+        } catch (error) {
+            errorLogger.error('Error to update property:',error);
         }
-
-        return JSON.stringify({});
     }
 
     /**
-     * @property onlineDevice
+     * @method onlineDevice
      * @public
      * @returns {Array} resMsg - deviceName/productKey Array of JSON  format
      * this method update this._meterList property values in class
@@ -245,36 +274,52 @@ class Configuration {
      * because when a dlt meter is used the response value only includes meterSn
      */
     onlineDevice() {
-        let meterList = this._meterList,
-            resMsg = [];
+        try {
+            let meterList = this._meterList,
+                resMsg = [];
 
-        for (let x = 0; x < meterList.length; x++) {
-            let meter = JSON.parse(meterList[x]),
-                resObj = {
-                    'productKey': meter['productKey'],
-                    'deviceName': meter['deviceName']
-                };
+            for (let x = 0; x < meterList.length; x++) {
+                let meter = JSON.parse(meterList[x]),
+                    resObj = {
+                        'productKey': meter['productKey'],
+                        'deviceName': meter['deviceName']
+                    };
 
-            resMsg.push(Object.assign({}, resObj));
+                resMsg.push(Object.assign({}, resObj));
+            }
+            return resMsg;
+
+        } catch (error) {
+            errorLogger.error('Error to set onlineDevice in configuration class:',error);
         }
-        return resMsg;
     }
-
+    /**
+     * @method reportProperty
+     * @public
+     * @returns {Array} resList - deviceName/productKey Array of JSON  format
+     * this method update this._meterList property values in class
+     * this method is used to report all properties of all devices.
+     */
     reportProperty(){
-        // console.log(this.meterList);
-        let resList=[],
-            meterLength=this.meterList.length;
+        try {
 
-        for (let i=0;i<meterLength;i++){
-            let resMsg={},
-                meter=JSON.parse(this._meterList[i]);
+            // console.log(this.meterList);
+            let resList=[],
+                meterLength=this.meterList.length;
 
-            resMsg['productKey']=meter['productKey'];
-            resMsg['deviceName']=meter['deviceName'];
-            resMsg['properties']=meter['properties'];
-            resList.push(resMsg);
+            for (let i=0;i<meterLength;i++){
+                let resMsg={},
+                    meter=JSON.parse(this._meterList[i]);
+
+                resMsg['productKey']=meter['productKey'];
+                resMsg['deviceName']=meter['deviceName'];
+                resMsg['properties']=meter['properties'];
+                resList.push(resMsg);
+            }
+            return resList;
+        } catch (error) {
+            errorLogger.error('Error to report Property in configuration class',error);
         }
-        return resList;
     }
 
 }

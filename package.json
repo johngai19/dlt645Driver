@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "cov": "nyc  mocha",
-    "start":"node src/index.js",
+    "start": "node src/index.js",
     "lint": "eslint .",
     "fix": "eslint --fix .",
     "doc": "npx jsdoc --private src/"
@@ -38,11 +38,12 @@
     "sinon": "^7.5.0"
   },
   "pre-commit": [
-    "test",
     "fix",
     "lint"
   ],
   "dependencies": {
-    "serialport": "^8.0.5"
+    "log4js": "^6.1.0",
+    "serialport": "^8.0.5",
+    "websocket": "^1.0.31"
   }
 }

@@ -112,10 +112,10 @@ describe('configuration tests', () => {
 
         let msg = JSON.stringify({
             "meterSn": "3411001043",
-            "properties": [{ "identifier": "elecPf", "type": "int", "value": 20 },
-            { "identifier": "elecFh", "type": "int", "value": 200 },
-            { "identifier": "elecUa", "type": "int", "value": 2000 },
-            { "identifier": "invalidProperty", "type": "int", "value": 20000 }]
+            "properties": [{ "identifier": "elecPf", "value": 20 },
+            { "identifier": "elecFh","value": 200 },
+            { "identifier": "elecUa","value": 2000 },
+            { "identifier": "invalidProperty" ,"value": 20000 }]
         });
         let msg2 = JSON.stringify({
             "productKey": "a1CLH9cvgoK",

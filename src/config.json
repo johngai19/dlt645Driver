@@ -6,7 +6,7 @@
         "parity": "even",
         "stopBits": 1,
         "autoOpen":true,
-        "updateInterval":3000
+        "updateInterval":5000
     },
     "meterList": [
         {
