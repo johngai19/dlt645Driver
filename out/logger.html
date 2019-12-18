@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: ConcatParser</title>
+    <title>JSDoc: Class: logger</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: ConcatParser</h1>
+    <h1 class="page-title">Class: logger</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>ConcatParser<span class="signature">(options-)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>logger<span class="signature">(configFile, modelFile)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">ConcatParser - class to concat buffer to complete command</div>
+            <div class="class-description">Configuration - class to create,save and update all global data</div>
         
     
 </header>
@@ -45,11 +45,9 @@
     
 
     
-    <h4 class="name" id="ConcatParser"><span class="type-signature"></span>new ConcatParser<span class="signature">(options-)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="logger"><span class="type-signature"></span>new logger<span class="signature">(configFile, modelFile)</span><span class="type-signature"></span></h4>
     
 
-    
-    <p class="summary">To use the `ConcatParser` parser, provide a boundary as a string, buffer, or array of bytes. Runs in O(n) time.</p>
     
 
 
@@ -87,13 +85,13 @@
 
         <tr>
             
-                <td class="name"><code>options-</code></td>
+                <td class="name"><code>configFile</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">string</span>
 
 
             
@@ -103,7 +101,30 @@
 
             
 
-            <td class="description last">see test files for more option</td>
+            <td class="description last">the path and file name of config file</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>modelFile</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the path and file name of model file</td>
         </tr>
 
     
@@ -147,7 +168,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="concatparser.js.html">concatparser.js</a>, <a href="concatparser.js.html#line30">line 30</a>
+        <a href="configuration.js.html">configuration.js</a>, <a href="configuration.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -176,29 +197,9 @@
 
 
 
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const SerialPort = require('serialport');
-const ConcatParser = require('./ConcatParser');
-const port = new SerialPort('/dev/tty-usbserial1');
-const parser = port.pipe(new ConcatParser({ boundary: '\n'));
-parser.on('data', (data)=>{console.log});</code></pre>
-
-
 
     
     </div>
-
-    
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li>Transform</li>
-    </ul>
-
 
     
 

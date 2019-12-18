@@ -104,6 +104,620 @@
     
 
     
+    <h4 class="name" id="*_fetchValue-yieldfunctiontofeeddriver"><span class="type-signature">(private) </span>*_fetchValue - yield function to feed driver<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">yield all properties from meterList and generate command for driver to call port and send</p>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dltdriver.js.html">dltdriver.js</a>, <a href="dltdriver.js.html#line113">line 113</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="_buildDeviceList"><span class="type-signature">(private) </span>_buildDeviceList<span class="signature">(devices, model)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>devices</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">JSON</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">device list from configuration file</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>model</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">JSON</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">device value model properties (only the properties need to be pass in)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="configuration.js.html">configuration.js</a>, <a href="configuration.js.html#line82">line 82</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    devicelist - Array of JSON String format
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="_getAllProperties"><span class="type-signature">(private) </span>_getAllProperties<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="configuration.js.html">configuration.js</a>, <a href="configuration.js.html#line63">line 63</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    propertyAlist- Array of String format with all properties
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="_initPort"><span class="type-signature">(private) </span>_initPort<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">update port value of dltdriver from configuration file</p>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dltdriver.js.html">dltdriver.js</a>, <a href="dltdriver.js.html#line64">line 64</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="_updateValue-toupdatemeterlistvalueinconfiguration"><span class="type-signature">(private) </span>_updateValue - to update meterlist value in configuration<span class="signature">(cmd, configuration)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">translate from cmd to configuration format and call configuration to update</p>
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cmd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a custom formed object,see parser</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>configuration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">see configuration file</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dltdriver.js.html">dltdriver.js</a>, <a href="dltdriver.js.html#line90">line 90</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="bufToCmd-aparserfunctiontotransformSerialportbufferbackintocustomCmd"><span class="type-signature"></span>bufToCmd - a parser function to transform Serialport buffer back into custom Cmd<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
@@ -204,7 +818,7 @@ TODO  support more Dlt code in the future
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dltparser.js.html">dltparser.js</a>, <a href="dltparser.js.html#line107">line 107</a>
+        <a href="dltparser.js.html">dltparser.js</a>, <a href="dltparser.js.html#line109">line 109</a>
     </li></ul></dd>
     
 
@@ -265,6 +879,92 @@ dataformat Bellow are dataformat request
 </dl>
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="closePort"><span class="type-signature"></span>closePort<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary">close the port</p>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dltdriver.js.html">dltdriver.js</a>, <a href="dltdriver.js.html#line159">line 159</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -369,7 +1069,7 @@ dataformat Bellow are dataformat request
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dltparser.js.html">dltparser.js</a>, <a href="dltparser.js.html#line39">line 39</a>
+        <a href="dltparser.js.html">dltparser.js</a>, <a href="dltparser.js.html#line40">line 40</a>
     </li></ul></dd>
     
 
@@ -589,6 +1289,706 @@ Bellow are dataformat request
     
 
     
+    <h4 class="name" id="getProperty"><span class="type-signature"></span>getProperty<span class="signature">(msgString)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>msgString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">JSON</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">property request JSON string format</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="configuration.js.html">configuration.js</a>, <a href="configuration.js.html#line122">line 122</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    resMsg - JArray of JSON  format
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let msg = JSON.stringify({
+            "productKey": "a1CLH9cvgoK",
+            "deviceName": "tstMeter",
+            "properties": ["elecPf", "elecFh", "elecUa"]
+        });
+ resmsg = [{"identifier":"elecPf","type":"int","value":0},
+            {"identifier":"elecFh","type":"int","value":0},
+            {"identifier":"elecUa","type":"int","value":0}];</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="onlineDevice"><span class="type-signature"></span>onlineDevice<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="configuration.js.html">configuration.js</a>, <a href="configuration.js.html#line268">line 268</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    resMsg - deviceName/productKey Array of JSON  format
+this method update this._meterList property values in class
+this method is used to update property with meterSn property rather than productKey and deviceName
+because when a dlt meter is used the response value only includes meterSn
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="reportProperty"><span class="type-signature"></span>reportProperty<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="configuration.js.html">configuration.js</a>, <a href="configuration.js.html#line296">line 296</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    resList - deviceName/productKey Array of JSON  format
+this method update this._meterList property values in class
+this method is used to report all properties of all devices.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setProperty"><span class="type-signature"></span>setProperty<span class="signature">(msgString)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+    <p class="summary">currently this property is not called, keep for the future
+this method update this._meterList property values in class</p>
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>msgString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">JSON</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">property request JSON string format</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="configuration.js.html">configuration.js</a>, <a href="configuration.js.html#line174">line 174</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    resMsg - EMPTY JArray of JSON  format
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="updateProperty"><span class="type-signature"></span>updateProperty<span class="signature">(msgString)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>msgString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">JSON</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">property request JSON string format</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="configuration.js.html">configuration.js</a>, <a href="configuration.js.html#line221">line 221</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    resMsg - EMPTY JArray of JSON  format
+this method update this._meterList property values in class
+this method is used to update property with meterSn property rather than productKey and deviceName
+because when a dlt meter is used the response value only includes meterSn
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="useLogger-loggerforexpressproject"><span class="type-signature"></span>useLogger - logger for express project<span class="signature">(app, logger)</span><span class="type-signature"></span></h4>
     
 
@@ -758,13 +2158,13 @@ Bellow are dataformat request
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ConcatParser.html">ConcatParser</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="wsParser%2520-%2520function%2520to%2520parse%2520Ali%2520Iot%2520Linkedge%2520websocket%2520protocal.html">wsParser - function to parse Ali Iot Linkedge websocket protocal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#bufToCmd-aparserfunctiontotransformSerialportbufferbackintocustomCmd">bufToCmd - a parser function to transform Serialport buffer back into custom Cmd</a></li><li><a href="global.html#cmdToBuf-aparserfunctiontotransformcustomcommandtoSerialportbuffer">cmdToBuf - a parser function to transform custom command to Serialport buffer</a></li><li><a href="global.html#getLogger-functiontobuildalog4jsmodulesoastomakeloggingeasier">getLogger - function to build a log4js module so as to make logging easier</a></li><li><a href="global.html#useLogger-loggerforexpressproject">useLogger - logger for express project</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ConcatParser.html">ConcatParser</a></li><li><a href="DltDriver.html">DltDriver</a></li><li><a href="logger.html">logger</a></li><li><a href="wsParser%2520-%2520function%2520to%2520parse%2520Ali%2520Iot%2520Linkedge%2520websocket%2520protocal.html">wsParser - function to parse Ali Iot Linkedge websocket protocal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#*_fetchValue-yieldfunctiontofeeddriver">*_fetchValue - yield function to feed driver</a></li><li><a href="global.html#_buildDeviceList">_buildDeviceList</a></li><li><a href="global.html#_getAllProperties">_getAllProperties</a></li><li><a href="global.html#_initPort">_initPort</a></li><li><a href="global.html#_updateValue-toupdatemeterlistvalueinconfiguration">_updateValue - to update meterlist value in configuration</a></li><li><a href="global.html#bufToCmd-aparserfunctiontotransformSerialportbufferbackintocustomCmd">bufToCmd - a parser function to transform Serialport buffer back into custom Cmd</a></li><li><a href="global.html#closePort">closePort</a></li><li><a href="global.html#cmdToBuf-aparserfunctiontotransformcustomcommandtoSerialportbuffer">cmdToBuf - a parser function to transform custom command to Serialport buffer</a></li><li><a href="global.html#getLogger-functiontobuildalog4jsmodulesoastomakeloggingeasier">getLogger - function to build a log4js module so as to make logging easier</a></li><li><a href="global.html#getProperty">getProperty</a></li><li><a href="global.html#onlineDevice">onlineDevice</a></li><li><a href="global.html#reportProperty">reportProperty</a></li><li><a href="global.html#setProperty">setProperty</a></li><li><a href="global.html#updateProperty">updateProperty</a></li><li><a href="global.html#useLogger-loggerforexpressproject">useLogger - logger for express project</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Dec 17 2019 19:36:18 GMT+0800 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Wed Dec 18 2019 10:43:58 GMT+0800 (CST)
 </footer>
 
 <script> prettyPrint(); </script>

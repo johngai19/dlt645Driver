@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: dltdriver.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: dltdriver.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+const SerialPort = require('serialport'),
+    bufToCmd = require('./dltparser').bufToCmd,
+    cmdToBuf = require('./dltparser').cmdToBuf;
+const ConcatParser = require('./concatparser');
+const logger = require('./logger'),
+    errorLogger = logger.getLogger('debug');
+
+/**
+*@class DltDriver - class to fetch value from serialPort and update configuration value
+*@constructor
+*@param {Object} Configuration -
+*@auther weizy@126.com
+*@version 1.0.0
+*/
+class DltDriver {
+    constructor(configuration) {
+        // this._config=JSON.parse(configuration);
+        this._portName = '';
+        this._portSet = {};
+        this._updateInterval = 0;
+        this._initPort(configuration);
+        this._port = new SerialPort(this._portName, this._portSet, (err) => {
+            if (err !== null) {
+                errorLogger.error('port open error:', err);
+            }
+        });
+        this._concat = new ConcatParser({ 'boundary': [0x16] });
+        this._parser = this._port.pipe(this._concat);
+        this._meterList = configuration.meterList;
+        this._meterListLength = this._meterList.length;
+
+        //here calls parser to concat data and update relative value in configuration class
+        this._parser.on('data', (data) => {
+            let cmd = bufToCmd(data);
+
+            if (cmd) {
+                this._updateValue(cmd, configuration);
+            }
+
+        });
+        this._yld = this._fetchValue();
+        this._fetchInterval = setInterval(() => {
+            if (this._meterListLength > 0) {
+                let buf = this._yld.next().value;
+
+                if (buf.length > 1) {
+                    this._port.write(buf, (err) => {
+                        if (err) {
+                            errorLogger.error('fetch meter list error: ', err);
+                        }
+                    });
+                }
+
+            }
+        }, this._updateInterval);
+
+        this._initPort.bind(this);
+        this._updateValue.bind(this);
+        this._fetchValue.bind(this);
+        this.closePort.bind(this);
+    }
+
+    /**
+ * @method _initPort
+ * @private
+ * @summary update port value of dltdriver from configuration file
+ */
+    _initPort(config) {
+        try {
+
+            let driverInfo = JSON.parse(config['driverInfo']);
+
+            if (driverInfo) {
+                let rawPortName = driverInfo['portName'];
+
+                this._portName = rawPortName.replace('tty', '/dev/tty');
+                this._updateInterval = driverInfo['updateInterval'];
+                this._portSet['baudRate'] = driverInfo['baudRate'];
+                this._portSet['dataBits'] = driverInfo['dataBits'];
+                this._portSet['parity'] = driverInfo['parity'];
+                this._portSet['stopBits'] = driverInfo['stopBits'];
+                this._portSet['autoOpen'] = driverInfo['autoOpen'];
+
+            }
+        } catch (error) {
+            errorLogger.error('Error to init port in dltDriver:',error);
+        }
+    }
+    /**
+ * @method _updateValue - to update meterlist value in configuration
+ * @private
+ * @param {Object} cmd - a custom formed object,see parser
+ * @param {Object} configuration -see configuration file
+ * @summary translate from cmd to configuration format and call configuration to update
+ */
+    _updateValue(cmd, configuration) {
+        if (cmd !== {} &amp;&amp; cmd['sn'] &amp;&amp; cmd['data'] &amp;&amp; cmd['data']['propertyName'] !== 'errCode') {
+
+            let msg = {},
+                property = {},
+                data = cmd['data'];
+
+            msg['meterSn'] = cmd['sn'];
+            msg['properties'] = [];
+            property['identifier'] = data['propertyName'];
+            property['value'] = data['value'];
+            msg['properties'].push(property);
+            configuration.updateProperty(JSON.stringify(msg));
+        }
+
+    }
+    /**
+ * @method *_fetchValue - yield function to feed driver
+ * @private
+ * @summary yield all properties from meterList and generate command for driver to call port and send
+ */
+    *_fetchValue() {
+        const cmd = {
+                'sn': '0000000000',
+                'cmd': '11',
+                'data': {
+                    'status': true,
+                    'propertyName': 'elecUa',
+                    'value': 0
+                }
+            },
+            meterList = [];
+
+        for (let i = 0; i &lt; this._meterListLength; i++) {
+            meterList.push(JSON.parse(this._meterList[i]));
+        }
+        let index = 0;
+
+        while (true) {
+            let meter = meterList[index],
+                properties = meter['properties'],
+                propLength = properties.length;
+
+            cmd['sn'] = meter['meterSn'];
+            cmd['cmd'] = '11';
+
+
+            for (let i = 0; i &lt; propLength; i++) {
+                let property = properties[i];
+
+                cmd['data']['propertyName'] = property['identifier'];
+                cmd['data']['status'] = true;
+                cmd['data']['value'] = 0;
+                yield cmdToBuf(cmd);
+            }
+            index++;
+            if (index >= this._meterList.length) {
+                index = 0;
+            }
+        }
+
+    }
+    /**
+ * @method closePort
+ * @public
+ * @summary close the port
+ */
+    closePort(){
+        this._port.close();
+    }
+}
+
+module.exports = DltDriver;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ConcatParser.html">ConcatParser</a></li><li><a href="DltDriver.html">DltDriver</a></li><li><a href="logger.html">logger</a></li><li><a href="wsParser%2520-%2520function%2520to%2520parse%2520Ali%2520Iot%2520Linkedge%2520websocket%2520protocal.html">wsParser - function to parse Ali Iot Linkedge websocket protocal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#*_fetchValue-yieldfunctiontofeeddriver">*_fetchValue - yield function to feed driver</a></li><li><a href="global.html#_buildDeviceList">_buildDeviceList</a></li><li><a href="global.html#_getAllProperties">_getAllProperties</a></li><li><a href="global.html#_initPort">_initPort</a></li><li><a href="global.html#_updateValue-toupdatemeterlistvalueinconfiguration">_updateValue - to update meterlist value in configuration</a></li><li><a href="global.html#bufToCmd-aparserfunctiontotransformSerialportbufferbackintocustomCmd">bufToCmd - a parser function to transform Serialport buffer back into custom Cmd</a></li><li><a href="global.html#closePort">closePort</a></li><li><a href="global.html#cmdToBuf-aparserfunctiontotransformcustomcommandtoSerialportbuffer">cmdToBuf - a parser function to transform custom command to Serialport buffer</a></li><li><a href="global.html#getLogger-functiontobuildalog4jsmodulesoastomakeloggingeasier">getLogger - function to build a log4js module so as to make logging easier</a></li><li><a href="global.html#getProperty">getProperty</a></li><li><a href="global.html#onlineDevice">onlineDevice</a></li><li><a href="global.html#reportProperty">reportProperty</a></li><li><a href="global.html#setProperty">setProperty</a></li><li><a href="global.html#updateProperty">updateProperty</a></li><li><a href="global.html#useLogger-loggerforexpressproject">useLogger - logger for express project</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Wed Dec 18 2019 10:43:58 GMT+0800 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

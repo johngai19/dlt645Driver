@@ -21,6 +21,7 @@ try {
     //reconnect cycle to keep client alive
     let conInterval = 20000;
 
+    //Keep trying to make client keep alive
     client.on('connectFailed', function (error) {
         errorLogger.error('Connect Error: ' + error);
         conInterval += conInterval;
@@ -28,6 +29,8 @@ try {
             client.connect(server['server']);
         }, conInterval);
     });
+
+    //Report online and all properties, and reply all websocked request
     client.on('connect', function (connection) {
         let ml = configuration.meterList.length,
             rp = configuration.reportInterval,
@@ -75,6 +78,8 @@ try {
         connection.on('error', function (error) {
             errorLogger.error('Connection Error: ' + error);
         });
+
+        //automated reconnect
         connection.on('close', function () {
             errorLogger.error('Remote Connection Closed');
             conInterval += conInterval;
@@ -122,70 +127,3 @@ try {
     errorLogger.fatal('System Error:', error);
     process.exit(1);
 }
-/*
-    function sendNumber() {
-        if (connection.connected) {
-
-            //var number = Math.round(Math.random() * 0xFFFFFF);
-            //connection.sendUTF(number.toString());
-            connection.sendUTF(reportOnline()),
-                setTimeout(() => {
-                    connection.sendUTF(reportProperty());
-                }, 1000);
-        }
-    }
-    sendNumber();
-
-    function reportOnline() {
-        return JSON.stringify({
-            'version': '1.0',
-            'method': 'onlineDevice',
-            'messageId': 1,
-            'payload': {
-                'productKey': 'a1CLH9cvgoK',
-                'deviceName': 'testDltMeter'
-            }
-        });
-    }
-
-    function reportProperty() {
-        return JSON.stringify({
-            'version': '1.0',
-            'method': 'reportProperty',
-            'messageId': 0,
-            'payload': {
-                'productKey': 'a1CLH9cvgoK',
-                'deviceName': 'testDltMeter',
-                'properties': [
-                    {
-                        'identifier': 'elecUa',
-                        'type': 'int',
-                        'value': 2211
-                    },
-                    {
-                        'identifier': 'elecPf',
-                        'type': 'int',
-                        'value': 900
-                    },
-                    {
-                        'identifier': 'meterSn',
-                        'type': 'text',
-                        'value': 'ssd2221'
-                    },
-                    {
-                        'identifier': 'errCode',
-                        'type': 'int',
-                        'value': 0
-                    },
-                    {
-                        'identifier': 'elecCb',
-                        'type': 'int',
-                        'value': 800
-                    }
-                ]
-            }
-        });
-    }
-});
-
-*/
