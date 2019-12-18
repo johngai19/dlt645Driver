@@ -23,6 +23,7 @@ class DltDriver {
         this._port = new SerialPort(this._portName, this._portSet, (err) => {
             if (err !== null) {
                 errorLogger.error('port open error:', err);
+                process.exit(1);
             }
         });
         this._concat = new ConcatParser({ 'boundary': [0x16] });
@@ -85,6 +86,7 @@ class DltDriver {
             }
         } catch (error) {
             errorLogger.error('Error to init port in dltDriver:',error);
+            process.exit(2);
         }
     }
     /**

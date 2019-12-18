@@ -1,3 +1,4 @@
+#!/bin/bash
 echo 'start to check node env:'
    if ! type node 2>/dev/null || [[ `node -v` != 'v8.16.2' ]] ; then
      echo 'node Running Enviroment Error, start to build...'
@@ -13,5 +14,4 @@ echo 'start to check node env:'
     cnpm install --production
     echo 'success'
    fi
-   npm start
 echo 'end'

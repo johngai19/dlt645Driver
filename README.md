@@ -24,6 +24,10 @@ To use this driver you need to install an Aliyun Linkedge Gate way following [Of
 
 3. If you want to support more DLT 645 properties, update the [model.json](src/model.json)  file, please be sure to modify the propertyCode in [dltparser](src/dltparser.js) too so as the driver can parse relative property properly.
 
+4. For aumomated installation download install.sh file first or copy the contents, run install.sh script to finish project installation, if you want to install node global, uncomment the global install file and comment nvminstallation file. If you are out of China, please comment the cnpm installation line and use npm directly.
+
+5. Use start.sh script for automated start.
+
 ## To develop
 
 Use Nodejs V8.16.2

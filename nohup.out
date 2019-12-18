@@ -1,0 +1,34 @@
+
+> dlt645driver@1.0.0 start /home/wdsolar/Projects/dlt645Driver
+> node src/index.js
+
+Terminated
+npm ERR! code ELIFECYCLE
+npm ERR! errno 143
+npm ERR! dlt645driver@1.0.0 start: `node src/index.js`
+npm ERR! Exit status 143
+npm ERR! 
+npm ERR! Failed at the dlt645driver@1.0.0 start script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /home/wdsolar/.npm/_logs/2019-12-18T05_05_42_525Z-debug.log
+
+> dlt645driver@1.0.0 start /home/wdsolar/Projects/dlt645Driver
+> node src/index.js
+
+
+> dlt645driver@1.0.0 start /home/wdsolar/Projects/dlt645Driver
+> node src/index.js
+
+Terminated
+npm ERR! code ELIFECYCLE
+npm ERR! errno 143
+npm ERR! dlt645driver@1.0.0 start: `node src/index.js`
+npm ERR! Exit status 143
+npm ERR! 
+npm ERR! Failed at the dlt645driver@1.0.0 start script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /home/wdsolar/.npm/_logs/2019-12-18T05_18_09_645Z-debug.log
