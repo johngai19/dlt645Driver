@@ -24,6 +24,7 @@ try {
     //Keep trying to make client keep alive
     client.on('connectFailed', function (error) {
         errorLogger.error('Connect Error: ' + error);
+        //console.log(error);
         conInterval += conInterval;
         setTimeout(() => {
             client.connect(server['server']);

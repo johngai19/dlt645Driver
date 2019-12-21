@@ -3,151 +3,151 @@
 		{
 			"identifier":"elecPf",
 			"dataType":{
-				"type":"int"
+				"type":"float"
 			}
 		},
 		{
 			"identifier":"elecFh",
 			"dataType":{
-				"type":"int"
+				"type":"float"
 			}
 		},
 		{
 			"identifier":"elecFr",
 			"dataType":{
-				"type":"int"
+				"type":"float"
 			}
 		},
 		{
 			"identifier":"elecFra",
 			"dataType":{
-				"type":"int"
+				"type":"float"
 			}
 		},
 		{
 			"identifier":"elecFrb",
 			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecFrc",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecPq",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecPqa",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecPqb",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecPqc",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecCa",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecCb",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecCc",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecUa",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecUb",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecUc",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecAe",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecAef",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecAea",
-			"dataType":{
-				"type":"int"
-			}
-		},
-		{
-			"identifier":"elecAeb",
-			"dataType":{
-				"type":"int"
+				"type":"float"
 			}
 		},
 		{
 			"identifier":"elecAec",
 			"dataType":{
-				"type":"int"
+				"type":"float"
 			}
 		},
 		{
 			"identifier":"elecFef",
 			"dataType":{
-				"type":"int"
+				"type":"float"
 			}
 		},
 		{
 			"identifier":"elecFea",
 			"dataType":{
-				"type":"int"
+				"type":"float"
 			}
 		},
 		{
 			"identifier":"elecFeb",
 			"dataType":{
-				"type":"int"
+				"type":"float"
 			}
 		},
 		{
 			"identifier":"elecFec",
 			"dataType":{
-				"type":"int"
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecFrc",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecPq",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecPqa",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecPqb",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecPqc",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecCa",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecCb",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecCc",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecUa",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecUb",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecUc",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecAe",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecAef",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecAea",
+			"dataType":{
+				"type":"float"
+			}
+		},
+		{
+			"identifier":"elecAeb",
+			"dataType":{
+				"type":"float"
 			}
 		}
 	]

@@ -34,8 +34,35 @@ const logger=require('./logger'),
         'elecFea': '00160000',
         'elecFeb': '002a0000',
         'elecFec': '003e0000'
-    };
+    },
 
+    propertyScale = {
+        'elecFh': 0.01,
+        'elecFr': 0.0001,
+        'elecFra':0.0001,
+        'elecFrb':0.0001,
+        'elecFrc':0.0001,
+        'elecPf': 0.001,
+        'elecPq': 0.0001,
+        'elecPqa':0.0001,
+        'elecPqb':0.0001,
+        'elecPqc':0.0001,
+        'elecCa': 0.001,
+        'elecCb': 0.001,
+        'elecCc': 0.001,
+        'elecUa': 0.1,
+        'elecUb': 0.1,
+        'elecUc': 0.1,
+        'elecAe': 0.01,
+        'elecAef':0.01,
+        'elecAea':0.01,
+        'elecAeb':0.01,
+        'elecAec':0.01,
+        'elecFef':0.01,
+        'elecFea':0.01,
+        'elecFeb':0.01,
+        'elecFec':0.01
+    };
 
 /**
  * @function cmdToBuf - a parser function to transform custom command to Serialport buffer
@@ -189,7 +216,9 @@ exports.bufToCmd = (buf) => {
                 for (let key in propertyCode){
                     if (propertyCode[key]===cmdStr){
                         cmd.data.propertyName=key;
-                        cmd.data.value=dataValue;
+                        let scale=propertyScale[key];
+
+                        cmd.data.value=dataValue*scale;
                         cmd.data.status=true;
                         break;
                     }

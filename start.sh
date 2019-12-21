@@ -1,7 +1,5 @@
 #!/bin/bash
-nohup npm run start &
-echo -e \n
-#use fg to bring job back to terminal
+nohup node /home/wdsolar/Projects/dlt645Driver/src/index.js &
 #use following script to show the pid and kill it if necessary
 #ps -e|grep node
 

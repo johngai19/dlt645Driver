@@ -10,14 +10,9 @@
     },
     "meterList": [
         {
-            "productKey":"a1CLH9cvgoK",
-            "deviceName":"tstMeter",
+            "productKey":"a18V18bpG5P",
+            "deviceName":"VP001_101",
             "meterSn":"3411001043"
-        },
-        {
-            "productKey":"a1CLH9cvgoK",
-            "deviceName":"virtualMeter",
-            "meterSn":"0000000000"
         }
     ],
     "reportInterval":10000

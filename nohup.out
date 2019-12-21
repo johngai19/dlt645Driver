@@ -1,34 +1,65 @@
-
-> dlt645driver@1.0.0 start /home/wdsolar/Projects/dlt645Driver
-> node src/index.js
-
-Terminated
-npm ERR! code ELIFECYCLE
-npm ERR! errno 143
-npm ERR! dlt645driver@1.0.0 start: `node src/index.js`
-npm ERR! Exit status 143
-npm ERR! 
-npm ERR! Failed at the dlt645driver@1.0.0 start script.
-npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
-
-npm ERR! A complete log of this run can be found in:
-npm ERR!     /home/wdsolar/.npm/_logs/2019-12-18T05_05_42_525Z-debug.log
-
-> dlt645driver@1.0.0 start /home/wdsolar/Projects/dlt645Driver
-> node src/index.js
-
-
-> dlt645driver@1.0.0 start /home/wdsolar/Projects/dlt645Driver
-> node src/index.js
-
-Terminated
-npm ERR! code ELIFECYCLE
-npm ERR! errno 143
-npm ERR! dlt645driver@1.0.0 start: `node src/index.js`
-npm ERR! Exit status 143
-npm ERR! 
-npm ERR! Failed at the dlt645driver@1.0.0 start script.
-npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
-
-npm ERR! A complete log of this run can be found in:
-npm ERR!     /home/wdsolar/.npm/_logs/2019-12-18T05_18_09_645Z-debug.log
+[35m[2019-12-21T15:50:42.985] [FATAL] fatal - [39mSystem Error: Error: The module '/home/wdsolar/Projects/dlt645Driver/node_modules/_@serialport_bindings@8.0.4@@serialport/bindings/build/Release/bindings.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 57. This version of Node.js requires
+NODE_MODULE_VERSION 79. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+    at Object.Module._extensions..node (internal/modules/cjs/loader.js:1190:18)
+    at Module.load (internal/modules/cjs/loader.js:976:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:884:14)
+    at Module.require (internal/modules/cjs/loader.js:1016:19)
+    at require (internal/modules/cjs/helpers.js:69:18)
+    at bindings (/home/wdsolar/Projects/dlt645Driver/node_modules/_bindings@1.5.0@bindings/bindings.js:112:48)
+    at Object.<anonymous> (/home/wdsolar/Projects/dlt645Driver/node_modules/_@serialport_bindings@8.0.4@@serialport/bindings/lib/linux.js:2:36)
+    at Module._compile (internal/modules/cjs/loader.js:1121:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1160:10)
+    at Module.load (internal/modules/cjs/loader.js:976:32)
+[35m[2019-12-21T15:54:21.077] [FATAL] fatal - [39mSystem Error: Error: The module '/home/wdsolar/Projects/dlt645Driver/node_modules/_@serialport_bindings@8.0.4@@serialport/bindings/build/Release/bindings.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 57. This version of Node.js requires
+NODE_MODULE_VERSION 79. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+    at Object.Module._extensions..node (internal/modules/cjs/loader.js:1190:18)
+    at Module.load (internal/modules/cjs/loader.js:976:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:884:14)
+    at Module.require (internal/modules/cjs/loader.js:1016:19)
+    at require (internal/modules/cjs/helpers.js:69:18)
+    at bindings (/home/wdsolar/Projects/dlt645Driver/node_modules/_bindings@1.5.0@bindings/bindings.js:112:48)
+    at Object.<anonymous> (/home/wdsolar/Projects/dlt645Driver/node_modules/_@serialport_bindings@8.0.4@@serialport/bindings/lib/linux.js:2:36)
+    at Module._compile (internal/modules/cjs/loader.js:1121:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1160:10)
+    at Module.load (internal/modules/cjs/loader.js:976:32)
+nohup: failed to run command 'nvm': No such file or directory
+[35m[2019-12-21T15:56:42.787] [FATAL] fatal - [39mSystem Error: Error: The module '/home/wdsolar/Projects/dlt645Driver/node_modules/_@serialport_bindings@8.0.4@@serialport/bindings/build/Release/bindings.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 57. This version of Node.js requires
+NODE_MODULE_VERSION 79. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+    at Object.Module._extensions..node (internal/modules/cjs/loader.js:1190:18)
+    at Module.load (internal/modules/cjs/loader.js:976:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:884:14)
+    at Module.require (internal/modules/cjs/loader.js:1016:19)
+    at require (internal/modules/cjs/helpers.js:69:18)
+    at bindings (/home/wdsolar/Projects/dlt645Driver/node_modules/_bindings@1.5.0@bindings/bindings.js:112:48)
+    at Object.<anonymous> (/home/wdsolar/Projects/dlt645Driver/node_modules/_@serialport_bindings@8.0.4@@serialport/bindings/lib/linux.js:2:36)
+    at Module._compile (internal/modules/cjs/loader.js:1121:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1160:10)
+    at Module.load (internal/modules/cjs/loader.js:976:32)
+nohup: failed to run command 'nvm': No such file or directory
+./start.sh: line 2: nvm: command not found
+[91m[2019-12-21T15:58:56.979] [ERROR] debug - [39mport open error: Error: Error Resource temporarily unavailable Cannot lock port
+[91m[2019-12-21T16:00:32.093] [ERROR] debug - [39mport open error: Error: Error Resource temporarily unavailable Cannot lock port
+[35m[2019-12-21T18:21:29.764] [FATAL] fatal - [39mSystem Error: Error: The module '/home/wdsolar/Projects/dlt645Driver/node_modules/_@serialport_bindings@8.0.4@@serialport/bindings/build/Release/bindings.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 57. This version of Node.js requires
+NODE_MODULE_VERSION 79. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+    at Object.Module._extensions..node (internal/modules/cjs/loader.js:1190:18)
+    at Module.load (internal/modules/cjs/loader.js:976:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:884:14)
+    at Module.require (internal/modules/cjs/loader.js:1016:19)
+    at require (internal/modules/cjs/helpers.js:69:18)
+    at bindings (/home/wdsolar/Projects/dlt645Driver/node_modules/_bindings@1.5.0@bindings/bindings.js:112:48)
+    at Object.<anonymous> (/home/wdsolar/Projects/dlt645Driver/node_modules/_@serialport_bindings@8.0.4@@serialport/bindings/lib/linux.js:2:36)
+    at Module._compile (internal/modules/cjs/loader.js:1121:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1160:10)
+    at Module.load (internal/modules/cjs/loader.js:976:32)

@@ -103,7 +103,7 @@ class Configuration {
 
                     property['identifier'] = model[j]['identifier'];
                     property['type'] = model[j]['dataType']['type'];
-                    if (property['type'] === 'int') {
+                    if (property['type'] === 'float'||property['type'] === 'int' ){
                         property['value'] = 0;
                     } else if (property.type === 'text') {
                         property['value'] = '';
@@ -112,6 +112,7 @@ class Configuration {
                     }
                     deviceModel.properties.push(JSON.parse(JSON.stringify(property)));
                 }
+                //console.log(deviceModel);
                 deviceList.push(JSON.stringify(deviceModel));
             }
             return deviceList;
@@ -130,9 +131,9 @@ class Configuration {
             "deviceName": "tstMeter",
             "properties": ["elecPf", "elecFh", "elecUa"]
         });
-    *  resmsg = [{"identifier":"elecPf","type":"int","value":0},
-            {"identifier":"elecFh","type":"int","value":0},
-            {"identifier":"elecUa","type":"int","value":0}];
+    *  resmsg = [{"identifier":"elecPf","type":"float","value":0},
+            {"identifier":"elecFh","type":"float","value":0},
+            {"identifier":"elecUa","type":"float","value":0}];
 
      */
     getProperty(msgString) {
